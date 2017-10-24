@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="formularioExpressExit">
+            <p:focus context="formularioExpressExit" for="express"/>
+            <h:panelGrid columns="1" cellpadding="5">
+                <h:outputLabel value="#{bundle.expressExit}" style="font-size: 110%; font-weight: bold " /> 
+                <p:graphicImage value="../../resources/images/cedulaProjSalida.png" height="100px" width="250px"></p:graphicImage>
+            </h:panelGrid>
+
+            <h:panelGrid columns="3" cellpadding="5">
+
+                <h:outputLabel for="express" value="Documento*" />
+                <p:inputText autocomplete="false" value="#{expressController.code}" id="express" required="true">
+                    <p:ajax event="blur" listener="#{expressController.exitByCodeReader(true)}"  update=":sucursalForm :fechasForm" process="formularioExpressExit"/>
+                </p:inputText>
+                <p:message for="express" />
+
+                <p:commandButton class="red" value = "Cancelar"  ajax="false" action="#{manualController.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

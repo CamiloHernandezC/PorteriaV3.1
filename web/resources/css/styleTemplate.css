@@ -1,0 +1,58 @@
+.ui-button.ui-state-default{
+    background: linear-gradient(to right, rgba(73,155,234,1) 24%, rgba(32,124,229,1) 55%, rgba(32,124,229,1) 73%, rgba(32,124,229,1) 100%);
+    border-radius: 20px;
+    box-shadow: 0px 2px 4px rgba(34,62,66,.25);
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+    width: 100%;
+    padding: 1px 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    -webkit-transition: box-shadow 1s ease;
+    transition: box-shadow 1s ease;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.ui-button.ui-state-hover{
+    box-shadow: 0px 4px 4px rgba(34,62,66,.5);
+    -webkit-transition: box-shadow 1s ease;
+    transition: box-shadow 1s ease;
+    background: linear-gradient(to right, rgba(210,255,82,1) 0%, rgba(145,232,66,1) 24%, rgba(145,232,66,1) 100%);
+}
+
+.ui-button.red.ui-state-default{
+    border-radius: 20px;
+    box-shadow: 0px 2px 4px rgba(34,62,66,.25);
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+    width: 100%;
+    padding: 1px 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    -webkit-transition: box-shadow 1s ease;
+    transition: box-shadow 1s ease;
+    margin-top:5px;
+    margin-bottom:5px;
+    background: linear-gradient(to right, rgba(73,155,234,1) 24%, rgba(32,124,229,1) 55%, rgba(32,124,229,1) 73%, rgba(32,124,229,1) 100%);
+    
+}
+
+.ui-button.red.ui-state-hover{
+    box-shadow: 0px 4px 4px rgba(34,62,66,.5);
+    -webkit-transition: box-shadow 1s ease;
+    transition: box-shadow 1s ease;
+    background: linear-gradient(to right, rgba(248,80,50,1) 0%, rgba(246,41,12,1) 8%, rgba(244,43,16,1) 28%, rgba(240,47,23,1) 63%, rgba(231,56,39,1) 100%);
+}
+
+
+
+.ui-layout-north {
+    overflow:visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    background: url("#{resource['/images/fondo9.jpg']}") center center;
+}

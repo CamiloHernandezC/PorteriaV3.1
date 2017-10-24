@@ -1,0 +1,52 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        
+        <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpSelectExit" modal="true" closable="true" minHeight="40">
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:panelGrid columns="1" cellpadding="10">
+                    <p> Seleccione el tipo de elemento que desea sacar dando clic sobre el icono al que corresponda el elemento.</p>
+                    <br/>
+                    <ul>
+                        <li>Documentos.</li>
+                        <li>Vehiculos</li>
+                        <li>Herramientas</li>
+                    </ul>
+                </h:panelGrid>
+                <p:graphicImage url="#{resource['/images/Info.png']}"/>
+            </h:panelGrid>
+        </p:dialog>
+        
+        <h:form>
+            <h:panelGrid columns="2" style="margin-left: 30%; " cellpadding="20px">
+                <font face="Comic Sans MS,arial,verdana" color="#DF0101"><h1>Salida de elementos</h1></font>
+                <p:commandLink immediate="true" action="#{helpUtils.showModalHelpSelectExit()}">
+                    <p:graphicImage style="width: 60%;margin-left: 20%; margin-top: 30%" url="#{resource['/images/Help.png']}"/>
+                </p:commandLink>
+            </h:panelGrid>
+            
+            <link rel="stylesheet" type="text/css" href="../../resources/css/styleSelectEntry.css"/>
+            <!-- base de las imagenes de s 256 X 256 -->
+            <div class="menu">
+                <h:commandLink id="documento" >
+                    <p:graphicImage url="#{resource['/images/Doc2.png']}"/>
+                </h:commandLink>
+                <h:commandLink  id="vehiculo"  action="#{selectEntryBean.irSacarVehiculo()}">
+                    <p:graphicImage url="#{resource['/images/Car.png']}"/>
+                </h:commandLink>
+                <h:commandLink id="herramienta" >
+                    <p:graphicImage url="#{resource['/images/Tools4.png']}"/>
+                </h:commandLink>
+                
+                <p:outputLabel value="Documentos" style="margin-left: 8%; font-size: 130%; font-family: cursive"/>
+                <p:outputLabel value="Vehiculos" style="margin-left: 18%; font-size: 130%; font-family: cursive"/>
+                <p:outputLabel value="Herramientas" style="margin-left: 20%; font-size: 130%; font-family: cursive"/>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

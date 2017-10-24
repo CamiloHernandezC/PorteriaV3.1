@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <p:confirmDialog id="blockedDialog" appendTo="@(body)" message="BLOQUEADO" header="BLOQUEADO" severity="error" showEffect="fade" hideEffect="fade" widgetVar="blockedDialog" closable="false">
+            <h:form>
+                <p:commandButton update="search_form" value="#{bundle.Accept}" onclick="#{completeEntryPersonBean.hideBlockDialog()}" ajax="false"/>
+            </h:form>
+        </p:confirmDialog>
+
+
+        <h:form id="search_form">
+            <p:focus context="search_form" for="cc"/>
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <font face="Comic Sans MS,arial,verdana" color="#01DF3A"><h3>#{bundle.Entry}</h3></font>
+                    <h:panelGrid/>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel for="selec_entry" value="#{bundle.P_Complete_Entry_Select_Entry_Method}" />
+                        <p:selectOneRadio  id="selec_entry" value="#{completeEntryPersonBean.inputMethod}" immediate="true">
+                            <p:ajax  update="search_form" />
+                            <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Manual}" itemValue="true" />
+                            <f:selectItem itemLabel="#{bundle.P_Complete_Entry_Scanner}" itemValue="false" />
+                        </p:selectOneRadio>
+
+                        <p:outputLabel rendered="#{completeEntryPersonBean.inputMethod}" for="DocType" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" />
+                        <p:selectOneMenu id="DocType" value="#{completeEntryPersonBean.docType}" rendered="#{completeEntryPersonBean.inputMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 165px">
+                            <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems  value="#{generalViewBean.tiposDocumento}" var="docType" itemLabel="#{docType.descripcion}" itemValue="#{docType.tipoDocumento}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel rendered="#{completeEntryPersonBean.inputMethod}" for="numDoc" value="#{bundle.CreatePersonasCliLabel_numDocumento}" />
+                        <p:inputText id="numDoc" value="#{completeEntryPersonBean.docNumber}" rendered="#{completeEntryPersonBean.inputMethod}" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" autocomplete="false" style="width: 200px"/>
+
+                        <p:outputLabel rendered="#{!completeEntryPersonBean.inputMethod}" for="cc" value="#{bundle.P_Complete_Entry_Scanner}" />
+                        <p:inputText  rendered="#{!completeEntryPersonBean.inputMethod}" autocomplete="false" id="cc" value="#{completeEntryPersonBean.code}" required="true">
+                            <p:ajax event="keyup" listener="#{completeEntryPersonBean.entryByCodeReader()}" update="search_form growl" />
+                        </p:inputText>
+                    </h:panelGrid>
+                </h:panelGrid>
+
+                <p:graphicImage value="../../resources/images/LectorProj.png" height="100px" width="200px" rendered="#{!completeEntryPersonBean.inputMethod}"/>
+                <p:graphicImage  style="padding-left: 20%" value="../../resources/images/Keyboard3.png"  rendered="#{completeEntryPersonBean.inputMethod}"/>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" cellpadding="10px">
+                <p:commandButton rendered="#{completeEntryPersonBean.inputMethod}" value = "#{bundle.Search}" action="#{completeEntryPersonBean.manualEntry()}" icon="ui-icon-check" ajax="false"/>
+                <p:commandButton class="red" value ="#{bundle.Cancel}" action="#{completeEntryPersonBean.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            </h:panelGrid>    
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

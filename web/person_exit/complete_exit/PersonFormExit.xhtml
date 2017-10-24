@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="formularioCrear">
+
+            <h:panelGrid columns="2" cellpadding="25%" >
+                
+                <h:panelGrid columns="4" cellpadding="5" >
+
+                    <p:outputLabel for="nombre1" value="#{bundle.CreatePersonasCliLabel_nombre1}" rendered="true" />
+                    <p:inputText id="nombre1" style="text-transform:uppercase ;width: 200px" rendered="true" disabled="true" maxlength="30"  required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_nombre1}"  value="#{personFormExitBean.persona.nombre1}"/>
+                    <p:outputLabel for="nombre2" value="#{bundle.CreatePersonasCliLabel_nombre2}" rendered="true" />
+                    <p:inputText id="nombre2" value="#{personFormExitBean.persona.nombre2}" rendered="true" disabled="true" style="text-transform:uppercase;width: 200px" maxlength="30"/>
+
+                    <p:outputLabel for="apellido1" value="#{bundle.CreatePersonasCliLabel_apellido1}" rendered="true" />
+                    <p:inputText id="apellido1" value="#{personFormExitBean.persona.apellido1}" rendered="true" disabled="true" required ="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_apellido1}"  style="text-transform:uppercase;width: 200px" maxlength="30"/>
+                    <p:outputLabel for="apellido2" value="#{bundle.CreatePersonasCliLabel_apellido2}" rendered="true" />
+                    <p:inputText id="apellido2" value="#{personFormExitBean.persona.apellido2}" rendered="true" disabled="true" style="text-transform:uppercase;width: 200px"   maxlength="30" />
+
+                    <p:outputLabel for="tipoDoc" value="#{bundle.CreatePersonasCliLabel_tipoDocumento}" rendered="true"/>
+                    <p:selectOneMenu id="tipoDoc" value="#{personFormExitBean.persona.tipoDocumento}" rendered="true" disabled="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_tipoDocumento}" filter="true" filterMatchMode="contains" autoWidth="false" style=" width: 170px" widgetVar="tipoDoc">
+                        <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                        <f:selectItems  value="#{generalViewBean.tiposDocumento}" var="tipoDoc" itemLabel="#{tipoDoc.descripcion}" itemValue="#{tipoDoc}"  />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="numDocum" value="#{bundle.CreatePersonasCliLabel_numDocumento}" rendered="true"  style="width: 200px"/>
+                    <p:inputText id="numDocum" value="#{personFormExitBean.persona.numeroDocumento}" rendered="true"  disabled="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_numDocumento}" style="text-transform:uppercase;width: 200px" maxlength="20"/>
+
+                </h:panelGrid>
+
+                <h:panelGrid>
+                    
+                    <p:graphicImage id="foto" value="#{photo.getUltimaImagen(personFormExitBean.imagen)}" width="150" height="150" rendered="#{personFormExitBean.imagen!=null}" cache="false"/>
+                    <h:outputLabel value="Foto Cargada: " for="foto" rendered="#{personFormExitBean.imagen!=null}"/>  
+                
+                </h:panelGrid>
+                
+            </h:panelGrid>
+
+            <h:panelGrid columns="2">
+
+                <p:commandButton value = "#{bundle.Exit}"  action="#{personFormExitBean.exitPerson()}" ajax="false" icon="ui-icon-check"/>
+                <p:commandButton class="red" value = "#{bundle.Cancel}"  ajax="false" action="#{personFormExitBean.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

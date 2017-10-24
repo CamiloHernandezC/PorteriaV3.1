@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:dialog header="Movimientos Completos" closable="true" appendTo="@(body)" widgetVar="diagMovCompletos" modal="true" minHeight="40">
+        <h:form id="formAll">
+            <p:messages id="messages" showDetail="false"  autoUpdate="true" closable="true"/>
+            <h:panelGrid columns="3" cellpadding="5px">
+                <p:outputLabel value="Fecha"/>
+                <p:calendar maxdate="#{generalViewControl.actualDate}" id="fechaMov" locale="es" value="#{minutaBean.dateToSearch}" />   
+                <p:commandButton update="formAll" value="Buscar" action="#{minutaBean.findMovementsByDate()}"/>
+            </h:panelGrid>
+
+            <p:dataTable id="tablaMovs" paginator="true" rows="10" var="personas" value="#{minutaBean.foundMovements}" >
+                <p:column filterBy="#{personas.personasSucursal.personas.nombre1}" style="font-size:11px" headerText="1ER Nombre">
+                    <h:outputText  value="#{personas.personasSucursal.personas.nombre1}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.personas.nombre2}" style="font-size:11px" headerText="2DO Nombre">
+                    <h:outputText  value="#{personas.personasSucursal.personas.nombre2}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.personas.apellido1}" style="font-size:11px" headerText="1ER Apellido">
+                    <h:outputText value="#{personas.personasSucursal.personas.apellido1}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.personas.apellido2}" style="font-size:11px" headerText="2DO Apellido">
+                    <h:outputText value="#{personas.personasSucursal.personas.apellido2}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.personas.tipoDocumento.descripcion}" style="font-size:11px" headerText="Tipo Doc">
+                    <h:outputText value="#{personas.personasSucursal.personas.tipoDocumento.descripcion}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.personas.numeroDocumento}" style="font-size:11px" headerText="Documento">
+                    <h:outputText value="#{personas.personasSucursal.personas.numeroDocumento}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.entidad.descripcion}" style="font-size:11px" headerText="Entidad">
+                    <h:outputText value="#{personas.personasSucursal.entidad.descripcion}"/>
+                </p:column>
+
+                <p:column style="font-size:11px" headerText="Fecha Entrada">
+                    <h:outputText value="#{personas.fechaEntrada}">
+                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="font-size:11px" headerText="Hora Entrada">
+                    <h:outputText value="#{personas.horaEntrada}">
+                        <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="font-size:11px" headerText="Fecha Salida">
+                    <h:outputText value="#{personas.fechaSalida}">
+                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column style="font-size:11px" headerText="Hora Salida">
+                    <h:outputText value="#{personas.horaSalida}">
+                        <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.area.descripcion}" style="font-size:11px" headerText="Area Visitada">
+                    <h:outputText value="#{personas.personasSucursal.area.descripcion}"/>
+                </p:column>
+
+                <p:column filterBy="#{personas.personasSucursal.personas.empresaOrigen.nombre1}" style="font-size:11px" headerText="Empresa">
+                    <h:outputText value="#{personas.personasSucursal.personas.empresaOrigen.nombre1}"/>
+                </p:column>
+
+                <p:column style="font-size:11px" headerText="Celular">
+                    <h:outputText value="#{personas.personasSucursal.personas.celular}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>

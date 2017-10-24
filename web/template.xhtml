@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            </f:facet>
+            <script src="assets/js/custom.js"></script>
+            <link rel="stylesheet" type="text/css" href="#{resource['/css/styleTemplate.css']}"/>
+        </h:head>
+
+        <!--***************Código para evitar que pueda ir hacia atras***********-->
+        <meta http-equiv="Expires" content="0" /> 
+        <meta http-equiv="Pragma" content="no-cache" />
+        <script type="text/javascript">
+            if (history.forward(1)) {
+                location.replace(history.forward(1));
+            }
+        </script>
+        <!--*********************************************************************-->
+
+        <h:body id="body">
+            <!--Test for unique actived session************************************-->
+            <c:if test="#{loginControl.validSession()}"/>
+            <!--*********************************************************************-->
+            <p:layout style="background: white" fullPage="true">
+                <p:layoutUnit collapsible="true" position="west" size="375" header="Movimientos Registrados">
+                    <div id="menuwe" >
+                        <h:form>
+                            <p:dataTable var="personas" value="#{minutaBean.lastMovements}" >
+                                <p:column style="font-size:11px" headerText="Nombre">
+                                    <h:outputText  value="#{personas.personasSucursal.personas.nombre1}"/>
+                                </p:column>
+
+                                <p:column style="font-size:11px" headerText="Apellido">
+                                    <h:outputText value="#{personas.personasSucursal.personas.apellido1}"/>
+                                </p:column>
+
+                                <p:column style="font-size:11px" headerText="Fecha Entrada">
+                                    <h:outputText value="#{personas.fechaEntrada}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column style="font-size:12px" headerText="Hora Entrada">
+                                    <h:outputText value="#{personas.horaEntrada}">
+                                        <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column style="font-size:12px" headerText="Hora Salida">
+                                    <h:outputText value="#{personas.horaSalida}">
+                                        <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-5"/>
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="Ver Todos" onclick="PF('diagMovCompletos').show();" immediate="true"/>
+                                <p:commandLink immediate="true" style="margin-top: 100px" action="#{indexBean.showModalHelpVerMovimientos()}">
+                                    <p:graphicImage style="width: 60%" url="#{resource['/images/Help.png']}"/>
+                                </p:commandLink>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit style="background: white;overflow-x: hidden" position="center">
+                    <p:layout style="background: white">
+                        <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                            
+                            <h:form style="float:right !important;margin:0px 6px 3px 0px;">
+                                <p:commandButton class="red" icon="ui-icon-key" id="loginButton" value="#{bundle.Logout}" action="#{loginBean.logout()}" immediate=""/>
+                            </h:form>
+
+                            <h:form style="float:left !important;margin:0px 0px 3px 6px;">
+                                <p:commandButton icon="ui-icon-home" id="loginButton" value="Inicio" action="#{indexBean.irIndex()}" immediate=""/>
+                            </h:form>
+                            
+                        </p:layoutUnit>
+
+                        <p:layoutUnit style="background: white;" position="center">
+                            <h:panelGrid columns="1" style="width: 40%">
+                                <h:form>
+                                    <p:stack   expanded="false" icon="#{resource['/images/up.png']}">
+                                        <p:menuitem id="id1" style="background-color: white" value="Configuracion" icon="#{resource['images/Config.png']}" url="#{indexBean.irConfiguracion()}"/>
+                                        <p:menuitem value="Novedades" icon="#{resource['images/Novedades_1.png']}" url="#"/>
+                                        <p:menuitem id="id3" value="Contactenos" update=":formContact" icon="#{resource['images/Email_1.png']}" action="#{indexBean.irContactanos()}"/>
+                                    </p:stack>
+                                </h:form>
+                            </h:panelGrid>
+
+                            <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpTheme" modal="true" closable="true" minHeight="40">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:panelGrid columns="1" cellpadding="10">
+                                        <p> Elija el tema que desea tener al inicar sesión. </p>
+                                        <p> Los botones que encuentra son los siguientes: </p>
+                                        <ul>
+                                            <li>Ver : Sirve para definir el tema</li>
+                                            <li>Reset : Vuelve a los valores por defecto (Excite-Bike)"</li>
+                                        </ul>
+                                    </h:panelGrid>
+                                    <p:graphicImage url="..\resources\images\Info.png"/>
+                                </h:panelGrid>
+                            </p:dialog>
+
+                            <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpContact" modal="true" closable="true" minHeight="40">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:panelGrid columns="1" cellpadding="10">
+                                        <p>  </p>
+                                        <p> Ingrese todos los datos </p>
+                                        <ul>
+                                            <li>Ingrese su nombre.</li>
+                                            <li>Ingrese el correo donde desea ser contactado</li>
+                                            <li>Ingrese la descripción del problema o la situación que desea comentar, añada la información necesaria</li>
+                                            <li>Pulse aceptar para enviar un correo a nuestro servicio técnico.</li>
+                                        </ul>
+                                    </h:panelGrid>
+                                    <p:graphicImage url="#{resource['/images/Info.png']}"/>
+                                </h:panelGrid>
+                            </p:dialog>
+                            
+                            <p:dialog header="Dialogo de Ayuda" appendTo="@(body)" widgetVar="dlgHelpMov" modal="true" closable="true" minHeight="40">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <h:panelGrid columns="1" cellpadding="10">
+                                        <p>  </p>
+                                        <p> Permite ver todos los movimientos de personas realizados con una fecha de entrada seleccionada.</p>
+                                    </h:panelGrid>
+                                    <p:graphicImage url="#{resource['/images/Info.png']}"/>
+                                </h:panelGrid>
+                            </p:dialog>
+
+                            <ui:include src="dialogs/dialogTecnicalAssistence.xhtml"/>
+
+                            <ui:include src="dialogs/movimientosCompletos.xhtml"/>
+                            
+                            <p:growl id="growl" sticky="false" autoUpdate="true" life="4000"/>
+                            
+                            <ui:insert name="content"/>
+                        
+                        </p:layoutUnit>
+                    </p:layout>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

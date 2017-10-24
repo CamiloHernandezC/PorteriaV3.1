@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <p:confirmDialog id="expressDialog" appendTo="@(body)" message="#{bundle.DontExistPersonMessage}" header="Atención" severity="error" showEffect="fade" hideEffect="fade" widgetVar="expressDialog" closable="false">
+            <h:form>
+                <p:commandButton value="#{bundle.Accept}" onclick="PF('expressDialog').hide();" ajax="false"/>
+                <p:commandButton value="Ir a Registrar Persona" action="#{expressEntryPersonBean.redirecToPersonFormEntry()}" ajax="false"/>
+            </h:form>
+        </p:confirmDialog>
+        
+        <p:confirmDialog id="fechasDialog" appendTo="@(body)" message="Seleccione los siguientes datos para la entrada" header="Sucursal" severity="error" showEffect="fade" hideEffect="fade" widgetVar="fechasDialog" closable="false">
+            <h:form id="fechasForm">
+                <h:panelGrid columns="4" cellpadding="5">
+
+                    <p:outputLabel for="vigenciaEPS" value="#{bundle.CreatePersonasCliLabel_fechavigenciaEPS}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_EPS}"/>
+                    <p:calendar id="vigenciaEPS" value="#{expressEntryPersonBean.persona.fechaVigenciaSS}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_EPS}" required="#{personFormEntryBean.mostrarFecha_vigencia_EPS}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaEPS}" style=" width: 200px" yearRange="c-100:c+0" navigator="true"  mindate="#{generalViewControl.actualDate}"/>
+
+                    <p:outputLabel for="vigenciaARL" value="#{bundle.CreatePersonasCliLabel_fechavigenciaARL}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_ARL}"/>
+                    <p:calendar id="vigenciaARL" value="#{expressEntryPersonBean.persona.fechaVigenciaSS}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_ARL}" required="#{personFormEntryBean.mostrarFecha_vigencia_ARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fecha_arl}" yearRange="c-100:c+0" navigator="true"  style="width: 200px"  mindate="#{generalViewControl.actualDate}"/>
+                        
+                </h:panelGrid>
+                <p:commandButton value="Aceptar" action="#{expressEntryPersonBean.entryPerson()}" ajax="true"/>
+            </h:form>
+        </p:confirmDialog>
+
+        <p:confirmDialog id="sucursalDialog" appendTo="@(body)" message="Seleccione los siguientes datos para la entrada" header="Sucursal" severity="error" showEffect="fade" hideEffect="fade" widgetVar="sucursalDialog" closable="false">
+            <h:form id="sucursalForm">
+                <h:panelGrid columns="1" cellpadding="5px">
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="sucursales" value="#{bundle.CreatePersonasCliLabel_idSucursal}" rendered="#{branchOfficeBean.showBranchOffice}"/>
+                        <p:selectOneMenu id="sucursales" value="#{expressEntryPersonBean.personaSucursal.sucursales}" rendered="#{branchOfficeBean.showBranchOffice}" required="#{branchOfficeBean.showBranchOffice}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_idSucursal}" autoWidth="false" style=" width: 170px">
+                            <p:ajax  update="funcionario areaEmpresa"/>
+                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                            <f:selectItems  value="#{branchOfficeBean.branchOffices}" var="sucursales" itemLabel="#{sucursales.nombre}" itemValue="#{sucursales}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="areaEmpresa" value="#{bundle.CreatePersonasCliLabel_area}" rendered="true"/>
+                        <p:selectOneMenu id="areaEmpresa" value="#{personFormEntryBean.personaSucursal.area}" rendered="true" required="true" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_area}" filter="true" filterMatchMode="contains"  autoWidth="false" style=" width: 170px">
+                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true" itemValue="#{null}"/>
+                            <f:selectItems value="#{expressEntryPersonBean.personaSucursal.sucursales.areasEmpresaList}" var="areas" itemLabel="#{areas.descripcion}" itemValue="#{areas}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="vigenciaEPS" value="#{bundle.CreatePersonasCliLabel_fechavigenciaEPS}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_EPS}"/>
+                        <p:calendar id="vigenciaEPS" value="#{expressEntryPersonBean.persona.fechaVigenciaSS}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_EPS}" required="#{personFormEntryBean.mostrarFecha_vigencia_EPS}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fechaEPS}" style=" width: 200px" yearRange="c-100:c+0" navigator="true"  mindate="#{generalViewControl.actualDate}"/>
+
+                        <p:outputLabel for="vigenciaARL" value="#{bundle.CreatePersonasCliLabel_fechavigenciaARL}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_ARL}"/>
+                        <p:calendar id="vigenciaARL" value="#{expressEntryPersonBean.persona.fechaVigenciaSS}" rendered="#{personFormEntryBean.mostrarFecha_vigencia_ARL}" required="#{personFormEntryBean.mostrarFecha_vigencia_ARL}" requiredMessage="#{bundle.CreatePersonasCliRequiredMessage_fecha_arl}" yearRange="c-100:c+0" navigator="true"  style="width: 200px"  mindate="#{generalViewControl.actualDate}"/>
+                        
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" cellpadding="5px">
+                        <p:commandButton value="Aceptar" action="#{expressEntryPersonBean.entryPerson()}" ajax="true"/>
+                        <p:commandButton value="#{bundle.Cancel}" update="sucursalForm" onclick="PF('sucursalDialog').hide();" ajax="false" immediate="true"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:confirmDialog>
+
+        <h:form id="formularioExpress">
+            <p:focus context="formularioExpress" for="express"/>
+            <h:panelGrid columns="1" cellpadding="5">
+                <h:outputLabel value="#{bundle.expressEntry}" style="font-size: 110%; font-weight: bold " /> 
+                <p:graphicImage value="../../resources/images/cedulaProj.png" height="100px" width="250px"></p:graphicImage>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <h:outputLabel for="express" value="Documento*" />
+                <p:inputText autocomplete="false" value="#{expressEntryPersonBean.code}" id="express" required="true">
+                    <p:ajax event="keyup" listener="#{expressEntryPersonBean.entryByCodeReader()}"  update=":sucursalForm :fechasForm"/>
+                </p:inputText>
+
+                <p:commandButton class="red" value = "Cancelar"  ajax="false" action="#{expressEntryPersonBean.cancel()}" icon="ui-icon-cancel" immediate="true"/>
+            </h:panelGrid>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
